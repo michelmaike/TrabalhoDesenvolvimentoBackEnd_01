@@ -1,30 +1,17 @@
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-const passageiroSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    cpf: {
-        type: String,
-        unique: true,
-        required: true,
-        validate: {
-            validator: v => /^\d{11}$/.test(v),
-            message: 'CPF inválido!'
-        }
-    },
-    vooId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Voo',
-        required: true
-    },
-    checkInStatus: {
-        type: String,
-        enum: ['pendente', 'realizado'],
-        default: 'pendente'
-    }
+const modeloSchema = new mongoose.Schema({
+  nome: String,
+  cpf: String,
+  vooId: { type: mongoose.Schema.Types.ObjectId, ref: 'Voo' },
+  statusCheckIn: String,
 });
 
-module.exports = mongoose.model('Passageiro', passageiroSchema);
+const nomeModelo = 'Passageiro';
+
+if (mongoose.connection && mongoose.connection.models[nomeModelo]) {
+  module.exports = mongoose.connection.models[nomeModelo];
+} else {
+  module.exports = mongoose.model(nomeModelo, modeloSchema);
+}

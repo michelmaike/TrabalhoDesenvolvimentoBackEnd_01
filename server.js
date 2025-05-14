@@ -1,25 +1,19 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config({ path: 'variables.env' });
+require('dotenv').config({ path: 'variables.env' }); // corrigido
 
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.on('error', (error) => {
-    console.error("Erro de conexão com o MongoDB:", error.message);
-});
-mongoose.connection.on('connected', () => {
-    console.log("Conectado ao MongoDB com sucesso!");
-});
+mongoose.connect(process.env.BANCO_DADOS);
+mongoose.connection.on('erro', (erro) => console.log('Erro de conexão com o MongoDB:', erro));
+mongoose.connection.on('conectado', () => console.log('Conectado ao MongoDB com sucesso!'));
 
-const server = express();
-server.use(cors());
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+const servidor = express();
+servidor.use(cors());
+servidor.use(express.json());
+servidor.use(express.urlencoded({ extended: true })); // corrigido
 
-const airportRoutes = require('./src/routes/aeroportoRoutes');
-server.use('/', airportRoutes);
+const rotas = require('./src/routes/Router');// corrigido
+servidor.use('/', rotas);
 
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+const PORTA = process.env.PORTA || 4000;
+servidor.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));

@@ -1,32 +1,19 @@
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-const vooSchema = new mongoose.Schema({
-    vooNumero: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    origin: {
-        type: String,
-        required: true
-    },
-    destination: {
-        type: String,
-        required: true
-    },
-    departureDateTime: {
-        type: Date,
-        required: true
-    },
-    gateId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Portao'
-    },
-    status: {
-        type: String,
-        enum: ['programado', 'embarque', 'concluido'],
-        default: 'programado'
-    }
+const modeloSchema = new mongoose.Schema({
+  numeroVoo: String,
+  origem: String,
+  destino: String,
+  dataHoraPartida: Date,
+  portaoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Portao' },
+  status: String,
 });
 
-module.exports = mongoose.model('Voo', vooSchema);
+const nomeModelo = 'Voo';
+
+if (mongoose.connection && mongoose.connection.models[nomeModelo]) {
+  module.exports = mongoose.connection.models[nomeModelo];
+} else {
+  module.exports = mongoose.model(nomeModelo, modeloSchema);
+}
