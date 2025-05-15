@@ -4,7 +4,7 @@ module.exports = {
   criar: checkSchema({
     nome: {
       notEmpty: true,
-      errorMessage: 'Nome é obrigatório',
+      errorMessage: 'nome é obrigatório',
     },
     cpf: {
       notEmpty: true,
@@ -12,11 +12,11 @@ module.exports = {
         options: { min: 11, max: 11 },
       },
       isNumeric: true,
-      errorMessage: 'CPF deve ter exatamente 11 dígitos numéricos',
+      errorMessage: 'CPF deve ter exatamente 11 digitos numéricos',
     },
     vooId: {
       notEmpty: true,
-      errorMessage: 'Voo é obrigatório',
+      errorMessage: 'voo é obrigatório',
     },
   }),
 };

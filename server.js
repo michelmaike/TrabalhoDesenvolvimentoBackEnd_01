@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config({ path: 'variables.env' }); // corrigido
+require('dotenv').config({ path: 'variables.env' });
 
 mongoose.connect(process.env.BANCO_DADOS);
-mongoose.connection.on('erro', (erro) => console.log('Erro de conexão com o MongoDB:', erro));
-mongoose.connection.on('conectado', () => console.log('Conectado ao MongoDB com sucesso!'));
+mongoose.connection.on('error', (erro) => console.log('Erro de conexão com o MongoDB:', erro));
+mongoose.connection.on('connected', () => console.log('Conectado ao MongoDB com sucesso!'));
 
 const servidor = express();
 servidor.use(cors());
 servidor.use(express.json());
-servidor.use(express.urlencoded({ extended: true })); // corrigido
+servidor.use(express.urlencoded({ extended: true }));
 
-const rotas = require('./src/routes/Router');// corrigido
+const rotas = require('./src/routes/Router');
 servidor.use('/', rotas);
 
 const PORTA = process.env.PORTA || 4000;
